@@ -302,7 +302,7 @@ const Users = () => {
 								<div className="tw-w-full tw-flex tw-flex-col tw-space-y-6 tw-py-3 tw-border-t">
 									<form onSubmit={handleNewUserSubmit(submitNewUserForm)}>
 										<div className="tw-w-full tw-pb-3 tw-border-b">
-											<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-5">
+											<div className="tw-w-full tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-5">
 												<Controller
 													name={`first_name`}
 													control={controlNewUser}
@@ -350,7 +350,7 @@ const Users = () => {
 													)}
 												/>
 
-												<div className="tw-col-span-1 md:tw-col-span-2">
+												<div className="tw-col-span-1 lg:tw-col-span-2">
 													<Controller
 														name={`email`}
 														control={controlNewUser}
@@ -481,7 +481,7 @@ const Users = () => {
 					<div
 						data-aos="zoom-in"
 						data-aos-duration="800"
-						className="tw-rounded-xl tw-bg-white tw-w-full md:tw-w-3/5 lg:tw-w-2/3 tw-h-full md:tw-h-fit tw-px-5 tw-py-5 tw-flex tw-flex-col overflow-auto"
+						className="tw-rounded-xl tw-bg-white tw-w-full md:tw-w-4/5 lg:tw-w-2/3 tw-h-full md:tw-h-fit tw-px-5 tw-py-5 tw-flex tw-flex-col overflow-auto"
 						onClick={(e) => e.stopPropagation()}>
 						<div className="section-title tw-flex !tw-max-w-full !tw-mx-2 tw-justify-between tw-items-center !tw-mb-0">
 							<h2 className="nunito-font">User Info</h2>

@@ -6,7 +6,7 @@ import { Chip, Skeleton, Stack } from '@mui/material';
 import { useQuery } from 'react-query';
 
 import useAxiosAuth from 'hooks/useAxiosAuth';
-import StatsTable from '@/components/Table/Table';
+import StatsTable from '@/components/Table/StatsTable';
 import dayjs from 'dayjs';
 import { useStateContext } from 'context/StateContext';
 import { AiOutlineClose } from 'react-icons/ai';

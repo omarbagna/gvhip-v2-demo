@@ -17,6 +17,7 @@ import {
 import { BsChevronDown } from 'react-icons/bs';
 import { BiHomeAlt, BiUser } from 'react-icons/bi';
 import { MdOutlinePolicy } from 'react-icons/md';
+import { LiaUsersCogSolid } from 'react-icons/lia';
 import { signOut, useSession } from 'next-auth/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { TbCalendarStats } from 'react-icons/tb';
@@ -234,6 +235,14 @@ const DashboardNav = () => {
 										<a className="tw-w-fit lg:tw-w-56 tw-py-4 tw-px-6 tw-flex tw-flex-col tw-justify-center tw-items-center lg:tw-flex-row lg:tw-justify-start lg:tw-items-end tw-gap-2 hover:tw-text-[#7862AF]">
 											<AiOutlineSearch className="tw-shrink-0 tw-text-2xl" />{' '}
 											Find Policy
+										</a>
+									</Link>
+									<Link
+										href="/immigration/users"
+										activeClassName="tw-bg-[#7862AF]/10 tw-text-[#7862AF] tw-font-medium">
+										<a className="tw-w-fit lg:tw-w-56 tw-py-4 tw-px-6 tw-flex tw-flex-col tw-justify-center tw-items-center lg:tw-flex-row lg:tw-justify-start lg:tw-items-end tw-gap-2 hover:tw-text-[#7862AF]">
+											<LiaUsersCogSolid className="tw-shrink-0 tw-text-2xl" />{' '}
+											Manage Users
 										</a>
 									</Link>
 									<Link

@@ -5,6 +5,8 @@ const Context = createContext();
 export const StateContext = ({ children }) => {
 	const [viewTraveller, setViewTraveller] = useState(false);
 	const [viewTravellerData, setViewTravellerData] = useState(null);
+	const [viewUser, setViewUser] = useState(false);
+	const [viewUserData, setViewUserData] = useState(null);
 
 	return (
 		<Context.Provider
@@ -13,6 +15,10 @@ export const StateContext = ({ children }) => {
 				setViewTraveller,
 				viewTravellerData,
 				setViewTravellerData,
+				viewUser,
+				setViewUser,
+				viewUserData,
+				setViewUserData,
 			}}>
 			{children}
 		</Context.Provider>

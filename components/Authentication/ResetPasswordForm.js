@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 
 const ResetPasswordForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
-	const { control, watch, handleSubmit } = useForm({
+	const { control, watch, reset, handleSubmit } = useForm({
 		mode: 'all',
 		reValidateMode: 'onChange',
 		defaultValues: {
@@ -44,6 +44,8 @@ const ResetPasswordForm = () => {
 						isLoading: false,
 						autoClose: 3500,
 					});
+
+					reset();
 				} else if (data?.status !== 200) {
 					toast.update('resettingPassword', {
 						render: 'Password reset failed',
@@ -66,13 +68,19 @@ const ResetPasswordForm = () => {
 	);
 
 	const resetPassword = async (data) => {
-		const resetData = {
-			token: resetParams?.token,
-			policy_number: resetParams?.policy_number,
-			password: data.new_password,
-			password_confirmation: data.confirm_password,
-		};
-
+		const resetData = resetParams?.email
+			? {
+					email: resetParams?.email,
+					token: resetParams?.token,
+					password: data.new_password,
+					password_confirmation: data.confirm_password,
+			  }
+			: resetParams?.policy_number && {
+					token: resetParams?.token,
+					policy_number: resetParams?.policy_number,
+					password: data.new_password,
+					password_confirmation: data.confirm_password,
+			  };
 		resetPasswordRequest.mutate(resetData);
 	};
 

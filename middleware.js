@@ -23,6 +23,15 @@ export default withAuth(
 			return NextResponse.redirect(new URL('/immigration', req.url));
 		}
 
+		// Redirect to Agency Dashboard Area if user is not an Admin trying to access Manage Users
+		if (
+			req.nextUrl.pathname.startsWith('/immigration/users') &&
+			req.nextauth.token?.user?.role === 'immigration_officer' &&
+			req.nextauth.token?.user?.access?.toLowerCase() !== 'admin'
+		) {
+			return NextResponse.redirect(new URL('/immigration', req.url));
+		}
+
 		// Redirect to Guest Dashboard Area
 		if (
 			(req.nextUrl.pathname.startsWith('/company') ||

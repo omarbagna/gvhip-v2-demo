@@ -36,7 +36,12 @@ const Login = () => {
 		});
 		if (status.ok) {
 			setLoading(false);
-			toast.dismiss('signingIn');
+			toast.update('signingIn', {
+				render: 'Signed in successfully! Redirecting ...',
+				type: 'success',
+				isLoading: false,
+				autoClose: 3500,
+			});
 			router.push(status.url);
 		} else {
 			setLoading(false);

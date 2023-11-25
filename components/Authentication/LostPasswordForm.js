@@ -71,8 +71,8 @@ const LostPasswordForm = () => {
 				<div className="container">
 					<div className="lost-password-box">
 						<p>
-							Lost your password? Please enter your policy number. You will
-							receive a link to create a new password via email.
+							Lost your password? Please enter your policy number or email. You
+							will receive a link to create a new password via email.
 						</p>
 						<form onSubmit={handleSubmit(resetPasswordRequest)}>
 							<Controller
@@ -93,7 +93,7 @@ const LostPasswordForm = () => {
 									fieldState: { error, invalid },
 								}) => (
 									<div className="form-group">
-										<label>Policy number</label>
+										<label>Policy number or Email</label>
 										<input
 											{...field}
 											ref={ref}

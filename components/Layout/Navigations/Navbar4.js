@@ -411,12 +411,14 @@ const Navbar4 = () => {
 										</li>
 									) : (
 										status === 'loading' && (
-											<div className="others-option">
-												<Skeleton
-													variant="text"
-													sx={{ fontSize: '2rem', width: '100px' }}
-												/>
-											</div>
+											<li className="nav-item">
+												<span className="nav-link">
+													<Skeleton
+														variant="text"
+														sx={{ fontSize: '1rem', width: '70px' }}
+													/>
+												</span>
+											</li>
 										)
 									)}
 								</ul>
@@ -435,7 +437,7 @@ const Navbar4 = () => {
 									<div className="others-option">
 										<Skeleton
 											variant="text"
-											sx={{ fontSize: '2rem', width: '100px' }}
+											sx={{ fontSize: '1rem', width: '70px' }}
 										/>
 									</div>
 								)

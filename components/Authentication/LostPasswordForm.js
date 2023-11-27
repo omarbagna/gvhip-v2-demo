@@ -14,6 +14,11 @@ const LostPasswordForm = () => {
 		},
 	});
 
+	const isValidEmail = (email) => {
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		return emailRegex.test(email);
+	};
+
 	const triggerPasswordReset = async (data) => {
 		toast.loading('Sending reset link', {
 			toastId: 'sendingLink',
@@ -62,7 +67,11 @@ const LostPasswordForm = () => {
 	);
 
 	const resetPasswordRequest = (data) => {
-		resetPassword.mutate(data);
+		const isEmail = isValidEmail(data?.policy_number);
+
+		const passwordResetData = isEmail ? { email: data.policy_number } : data;
+
+		resetPassword.mutate(passwordResetData);
 	};
 
 	return (

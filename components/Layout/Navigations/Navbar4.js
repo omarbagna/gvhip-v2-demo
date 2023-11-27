@@ -389,7 +389,7 @@ const Navbar4 = () => {
 											<Link href="#">
 												<a className="dropdown-toggle nav-link">Sign In</a>
 											</Link>
-											<ul className="dropdown-menu lg:!tw-w-fit">
+											<ul className="dropdown-menu md:!tw-w-fit">
 												<li className="nav-item">
 													<span
 														className="tw-cursor-pointer"

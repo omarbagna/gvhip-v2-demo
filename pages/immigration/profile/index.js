@@ -96,7 +96,7 @@ const Profile = () => {
 
 	const triggerPasswordChange = async (data) => {
 		const { data: response } = await axiosPrivate.put(
-			'/account/change-password',
+			'/admin/change-password',
 			data
 		);
 		return response;

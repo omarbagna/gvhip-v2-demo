@@ -173,7 +173,7 @@ const Dashboard = () => {
 										{USER_DETAILS?.travelling_info?.first_name}{' '}
 										{USER_DETAILS?.travelling_info?.last_name}
 									</h3>
-									<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start lg:tw-flex-col lg:tw-items-end tw-gap-3">
+									<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-items-end tw-gap-2">
 										<div className="tw-w-fit tw-shrink-0 tw-flex tw-justify-start tw-text-sm tw-text-gray-500">
 											Passport number:
 										</div>
@@ -181,7 +181,7 @@ const Dashboard = () => {
 											{USER_DETAILS?.travelling_info?.passport_number}
 										</p>
 									</div>
-									<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start lg:tw-flex-col lg:tw-items-end tw-gap-3">
+									<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-items-end tw-gap-2">
 										<div className="tw-w-fit tw-shrink-0 tw-flex tw-justify-start tw-text-sm tw-text-gray-500">
 											Policy number:
 										</div>
@@ -189,7 +189,7 @@ const Dashboard = () => {
 											{USER_DETAILS?.travelling_info?.policy_number}
 										</p>
 									</div>
-									<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start lg:tw-flex-col lg:tw-items-end tw-gap-3">
+									<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-items-end tw-gap-2">
 										<div className="tw-w-fit tw-shrink-0 tw-flex tw-justify-start tw-text-sm tw-text-gray-500">
 											Policy Status:
 										</div>
@@ -380,7 +380,7 @@ const Dashboard = () => {
 												<h4 className="tw-font-semibold tw-text-lg tw-text-[#8e6abf]">
 													{person?.first_name} {person?.last_name}
 												</h4>
-												<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start lg:tw-flex-col lg:tw-items-end tw-gap-3">
+												<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-items-end tw-gap-2">
 													<div className="tw-w-fit tw-shrink-0 tw-flex tw-justify-start tw-text-sm tw-text-gray-500">
 														Passport number:
 													</div>
@@ -388,7 +388,7 @@ const Dashboard = () => {
 														{person?.passport_number}
 													</p>
 												</div>
-												<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start lg:tw-flex-col lg:tw-items-end tw-gap-3">
+												<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-items-end tw-gap-2">
 													<div className="tw-w-fit tw-shrink-0 tw-flex tw-justify-start tw-text-sm tw-text-gray-500">
 														Policy number:
 													</div>
@@ -396,7 +396,7 @@ const Dashboard = () => {
 														{person?.policy_number}
 													</p>
 												</div>
-												<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start lg:tw-flex-col lg:tw-items-end tw-gap-3">
+												<div className="tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start xl:tw-flex-row xl:tw-items-end tw-gap-2">
 													<div className="tw-w-fit tw-shrink-0 tw-flex tw-justify-start tw-text-sm tw-text-gray-500">
 														Policy Status:
 													</div>

@@ -221,6 +221,7 @@ const Users = () => {
 						autoClose: false,
 						closeButton: true,
 					});
+					queryClient.invalidateQueries({ queryKey: ['users'] });
 					queryClient.invalidateQueries({ queryKey: ['user'] });
 					setEditUser(false);
 					resetEditUser();

@@ -660,7 +660,7 @@ const Form = () => {
 																					helpertext={
 																						invalid ? error.message : null
 																					}
-																					label="Country of Residence"
+																					label="Country / Region"
 																					options={countries}
 																					required
 																				/>
@@ -1171,7 +1171,7 @@ const Form = () => {
 																						helpertext={
 																							invalid ? error.message : null
 																						}
-																						label="Country"
+																						label="Country / Region"
 																						options={countries}
 																						required
 																					/>
@@ -1881,7 +1881,7 @@ const Form = () => {
 									</h2>
 									<div className="tw-grid tw-grid-cols-2">
 										<div className="tw-w-full tw-flex tw-justify-start tw-text-sm tw-text-gray-600">
-											Country of Origin
+											Country / Region
 										</div>
 										<p className="tw-w-full tw-flex tw-justify-end tw-text-sm tw-text-[#8e6abf] tw-font-bold">
 											{traveller.country ? traveller.country : 'Select Country'}

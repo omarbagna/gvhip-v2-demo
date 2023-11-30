@@ -900,9 +900,11 @@ const Form = () => {
 																				name={`insured_person[${index}].address_ghana`}
 																				control={control}
 																				defaultValue={''}
-																				rules={{
-																					required: 'Please enter address',
-																				}}
+																				rules={
+																					{
+																						//required: 'Please enter address',
+																					}
+																				}
 																				render={({
 																					field: { ref, ...field },
 																					fieldState: { error, invalid },
@@ -1087,9 +1089,11 @@ const Form = () => {
 																				name={`insured_person[${index}].emergency_contact_first_name`}
 																				control={control}
 																				defaultValue={''}
-																				rules={{
-																					required: 'Please enter first name',
-																				}}
+																				rules={
+																					{
+																						//required: 'Please enter first name',
+																					}
+																				}
 																				render={({
 																					field: { ref, ...field },
 																					fieldState: { error, invalid },
@@ -1112,9 +1116,11 @@ const Form = () => {
 																				name={`insured_person[${index}].emergency_contact_last_name`}
 																				control={control}
 																				defaultValue={''}
-																				rules={{
-																					required: 'Please enter last name',
-																				}}
+																				rules={
+																					{
+																						//required: 'Please enter last name',
+																					}
+																				}
 																				render={({
 																					field: { ref, ...field },
 																					fieldState: { error, invalid },
@@ -1139,9 +1145,11 @@ const Form = () => {
 																			name={`insured_person[${index}].emergency_contact_address`}
 																			control={control}
 																			defaultValue={''}
-																			rules={{
-																				required: 'Please enter address',
-																			}}
+																			rules={
+																				{
+																					//required: 'Please enter address',
+																				}
+																			}
 																			render={({
 																				field: { ref, ...field },
 																				fieldState: { error, invalid },
@@ -1166,9 +1174,11 @@ const Form = () => {
 																				control={control}
 																				name={`insured_person[${index}].emergency_contact_country`}
 																				defaultValue={watch('country')}
-																				rules={{
-																					required: 'Please select country',
-																				}}
+																				rules={
+																					{
+																						//required: 'Please select country',
+																					}
+																				}
 																				render={({
 																					field: { ref, ...field },
 																					fieldState: { error, invalid },
@@ -1256,9 +1266,11 @@ const Form = () => {
 																				name={`insured_person[${index}].emergency_contact_ghana_first_name`}
 																				control={control}
 																				defaultValue={''}
-																				rules={{
-																					required: 'Please enter first name',
-																				}}
+																				rules={
+																					{
+																						//required: 'Please enter first name',
+																					}
+																				}
 																				render={({
 																					field: { ref, ...field },
 																					fieldState: { error, invalid },
@@ -1281,9 +1293,11 @@ const Form = () => {
 																				name={`insured_person[${index}].emergency_contact_ghana_last_name`}
 																				control={control}
 																				defaultValue={''}
-																				rules={{
-																					required: 'Please enter last name',
-																				}}
+																				rules={
+																					{
+																						//required: 'Please enter last name',
+																					}
+																				}
 																				render={({
 																					field: { ref, ...field },
 																					fieldState: { error, invalid },

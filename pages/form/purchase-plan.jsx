@@ -917,7 +917,7 @@ const Form = () => {
 																						}
 																						label="Address in Ghana"
 																						type="text"
-																						required
+																						//required
 																					/>
 																				)}
 																			/>
@@ -1104,7 +1104,7 @@ const Form = () => {
 																						}
 																						label="Given/First Name(s)"
 																						type="text"
-																						required
+																						//required
 																					/>
 																				)}
 																			/>
@@ -1129,7 +1129,7 @@ const Form = () => {
 																						}
 																						label="Surname/Last Name"
 																						type="text"
-																						required
+																						//required
 																					/>
 																				)}
 																			/>
@@ -1156,7 +1156,7 @@ const Form = () => {
 																					}
 																					label="Address"
 																					type="text"
-																					required
+																					//required
 																				/>
 																			)}
 																		/>
@@ -1183,7 +1183,7 @@ const Form = () => {
 																						}
 																						label="Country / Region"
 																						options={countries}
-																						required
+																						//required
 																					/>
 																				)}
 																			/>
@@ -1199,7 +1199,7 @@ const Form = () => {
 																						message:
 																							'Please enter a valid phone number. Phone number must follow the international standard',
 																					},
-																					required: 'Please enter phone number',
+																					//required: 'Please enter phone number',
 																				}}
 																				render={({
 																					field: { ref, ...field },
@@ -1273,7 +1273,7 @@ const Form = () => {
 																						}
 																						label="Given/First Name(s)"
 																						type="text"
-																						required
+																						//required
 																					/>
 																				)}
 																			/>
@@ -1298,7 +1298,7 @@ const Form = () => {
 																						}
 																						label="Surname/Last Name"
 																						type="text"
-																						required
+																						//required
 																					/>
 																				)}
 																			/>
@@ -1316,7 +1316,7 @@ const Form = () => {
 																						message:
 																							'Please enter a valid phone number. Phone number must follow the international standard',
 																					},
-																					required: 'Please enter phone number',
+																					//required: 'Please enter phone number',
 																				}}
 																				render={({
 																					field: { ref, ...field },

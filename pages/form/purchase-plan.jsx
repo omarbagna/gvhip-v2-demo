@@ -123,6 +123,8 @@ const Form = () => {
 		},
 	});
 
+	console.log(watch());
+
 	const { fields, append, remove } = useFieldArray({
 		control,
 		name: 'insured_person',
@@ -893,7 +895,7 @@ const Form = () => {
 																			/>
 																		</div>
 
-																		<div className="tw-col-span-1 lg:tw-col-span-2">
+																		<div className="tw-col-span-1 lg:tw-col-span-2 tw-hidden">
 																			<Controller
 																				name={`insured_person[${index}].address_ghana`}
 																				control={control}
@@ -1027,7 +1029,15 @@ const Form = () => {
 																								: '#616B7D',
 																						}}
 																						//excludeCountries={['gh']}
-																						country={'us'}
+																						country={
+																							watch(
+																								`insured_person[${index}].country`
+																							)
+																								? watch(
+																										`insured_person[${index}].country`
+																								  )?.toLowerCase()
+																								: 'us'
+																						}
 																						countryCodeEditable={false}
 																						enableSearch={true}
 																					/>
@@ -1065,7 +1075,7 @@ const Form = () => {
 																		)}
 																	/>
 
-																	<div className="tw-w-full h-fit tw-p-2 tw-gap-10 tw-flex tw-flex-col tw-justify-start tw-items-start tw-rounded-md tw-shadow-sm">
+																	<div className="tw-w-full h-fit tw-p-2 tw-gap-10 tw-hidden tw-flex-col tw-justify-start tw-items-start tw-rounded-md tw-shadow-sm">
 																		<h4 className="tw-w-full tw-text-tw-left tw-font-title tw-font-medium tw-text-2xl tw-text-[#7862AF] tw-hidden md:tw-block">
 																			Emergency Contact Information
 																		</h4>
@@ -1092,7 +1102,7 @@ const Form = () => {
 																						helpertext={
 																							invalid ? error.message : null
 																						}
-																						label="First Name"
+																						label="Given/First Name(s)"
 																						type="text"
 																						required
 																					/>
@@ -1117,7 +1127,7 @@ const Form = () => {
 																						helpertext={
 																							invalid ? error.message : null
 																						}
-																						label="Last Name"
+																						label="Surname/Last Name"
 																						type="text"
 																						required
 																					/>
@@ -1216,7 +1226,15 @@ const Form = () => {
 																									: '#616B7D',
 																							}}
 																							//excludeCountries={['gh']}
-																							country={'us'}
+																							country={
+																								watch(
+																									`insured_person[${index}].emergency_contact_country`
+																								)
+																									? watch(
+																											`insured_person[${index}].emergency_contact_country`
+																									  )?.toLowerCase()
+																									: 'us'
+																							}
 																							countryCodeEditable={false}
 																							enableSearch={true}
 																						/>
@@ -1229,7 +1247,7 @@ const Form = () => {
 																		</div>
 																	</div>
 
-																	<div className="tw-w-full h-fit tw-p-2 tw-gap-10 tw-flex tw-flex-col tw-justify-start tw-items-start tw-rounded-md tw-shadow-sm">
+																	<div className="tw-w-full h-fit tw-p-2 tw-gap-10 tw-hidden tw-flex-col tw-justify-start tw-items-start tw-rounded-md tw-shadow-sm">
 																		<h4 className="tw-w-full tw-text-tw-left tw-font-title tw-font-medium tw-text-2xl tw-text-[#7862AF]">
 																			Emergency Contact in Ghana
 																		</h4>
@@ -1253,7 +1271,7 @@ const Form = () => {
 																						helpertext={
 																							invalid ? error.message : null
 																						}
-																						label="First Name"
+																						label="Given/First Name(s)"
 																						type="text"
 																						required
 																					/>
@@ -1278,7 +1296,7 @@ const Form = () => {
 																						helpertext={
 																							invalid ? error.message : null
 																						}
-																						label="Last Name"
+																						label="Surname/Last Name"
 																						type="text"
 																						required
 																					/>
@@ -1436,7 +1454,7 @@ const Form = () => {
 																<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3">
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			First name
+																			Given/First name(s)
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																			{person['first_name']}
@@ -1444,7 +1462,7 @@ const Form = () => {
 																	</div>
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			last name
+																			Surname/Last name
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																			{person['last_name']}
@@ -1513,10 +1531,15 @@ const Form = () => {
 																<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3">
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			country of origin
+																			country / region
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
-																			{person['country']}
+																			{
+																				countries.filter(
+																					({ value }) =>
+																						value === person['country']
+																				)[0]?.name
+																			}
 																		</p>
 																	</div>
 																	<div>
@@ -1539,7 +1562,7 @@ const Form = () => {
 																			)}
 																		</p>
 																	</div>
-																	<div>
+																	<div className="tw-hidden">
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
 																			address in ghana
 																		</p>
@@ -1552,14 +1575,14 @@ const Form = () => {
 
 															{/** Emergency Contact Information Area */}
 
-															<div className="tw-w-full tw-h-fit tw-p-2 tw-gap-3 tw-flex tw-flex-col tw-justify-start tw-items-start tw-border-[#171e41] tw-pb-4">
+															<div className="tw-w-full tw-hidden tw-h-fit tw-p-2 tw-gap-3 tw-flex-col tw-justify-start tw-items-start tw-border-[#171e41] tw-pb-4">
 																<h4 className="tw-w-full tw-pb-2 tw-border-b-2 tw-border-[#171e41] tw-text-tw-left tw-font-title tw-font-medium tw-text-2xl tw-text-[#171e41]">
 																	Emergency Contact Information
 																</h4>
 																<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3">
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			first name
+																			given/first name
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																			{person['emergency_contact_first_name']}
@@ -1567,7 +1590,7 @@ const Form = () => {
 																	</div>
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			last name
+																			surname/last name
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																			{person['emergency_contact_last_name']}
@@ -1594,7 +1617,13 @@ const Form = () => {
 																			country
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
-																			{person['emergency_contact_country']}
+																			{
+																				countries.filter(
+																					({ value }) =>
+																						value ===
+																						person['emergency_contact_country']
+																				)[0]?.name
+																			}
 																		</p>
 																	</div>
 																</div>
@@ -1602,14 +1631,14 @@ const Form = () => {
 
 															{/** Emergency Contact in Ghana Information Area */}
 
-															<div className="tw-w-full tw-h-fit tw-p-2 tw-gap-3 tw-flex tw-flex-col tw-justify-start tw-items-start tw-border-[#171e41] tw-pb-4">
+															<div className="tw-w-full tw-h-fit tw-p-2 tw-gap-3 tw-hidden tw-flex-col tw-justify-start tw-items-start tw-border-[#171e41] tw-pb-4">
 																<h4 className="tw-w-full tw-pb-2 tw-border-b-2 tw-border-[#171e41] tw-text-tw-left tw-font-title tw-font-medium tw-text-2xl tw-text-[#171e41]">
 																	Emergency Contact in Ghana Information
 																</h4>
 																<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3">
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			first name
+																			given/first name
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																			{
@@ -1621,7 +1650,7 @@ const Form = () => {
 																	</div>
 																	<div>
 																		<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																			last name
+																			surname/last name
 																		</p>
 																		<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																			{
@@ -1661,7 +1690,7 @@ const Form = () => {
 																				className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3 tw-border-b">
 																				<div>
 																					<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																						First name
+																						Given/First name
 																					</p>
 																					<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																						{dependant['first_name']}
@@ -1669,7 +1698,7 @@ const Form = () => {
 																				</div>
 																				<div>
 																					<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
-																						Last name
+																						Surname/Last name
 																					</p>
 																					<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
 																						{dependant['last_name']}
@@ -1730,6 +1759,17 @@ const Form = () => {
 																	)}
 																</div>
 															) : null}
+
+															<div className="tw-w-full tw-flex tw-justify-end">
+																<div
+																	onClick={goToPrevious}
+																	className="tw-cursor-pointer tw-group tw-text-[#7862AF] tw-font-semibold tw-text-sm tw-flex tw-gap-2 tw-items-center">
+																	<span className="tw-cursor-pointer tw-flex tw-justify-center tw-items-center tw-transition-all tw-duration-500 tw-ease-in-out tw-rounded-full tw-h-6 tw-w-6 tw-text-[#7862AF] group-hover:tw-text-white tw-bg-transparent group-hover:tw-shadow-lg group-hover:tw-shadow-[#7862AF]/50 group-hover:tw-bg-[#7862AF]">
+																		<MdEdit className="tw-text-base" />
+																	</span>
+																	Edit
+																</div>
+															</div>
 														</AccordionDetails>
 													</MuiAccordion>
 												))}
@@ -1884,7 +1924,11 @@ const Form = () => {
 											Country / Region
 										</div>
 										<p className="tw-w-full tw-flex tw-justify-end tw-text-sm tw-text-[#8e6abf] tw-font-bold">
-											{traveller.country ? traveller.country : 'Select Country'}
+											{traveller.country
+												? countries.filter(
+														({ value }) => value === traveller.country
+												  )[0]?.name
+												: 'Select Country'}
 										</p>
 									</div>
 									<div className="tw-grid tw-grid-cols-2">

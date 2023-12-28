@@ -49,6 +49,7 @@ const Profile = () => {
 		},
 	});
 
+	// Fetch User Profile Information
 	const getUserProfile = async () => {
 		const response = await axiosPrivate.get('/account/profile');
 
@@ -87,6 +88,45 @@ const Profile = () => {
 		? userProfile?.data?.data?.data
 		: null;
 
+	// Fetch User Details
+	const getUserDetails = async () => {
+		const response = await axiosPrivate.get('/account/dashboard');
+
+		return response;
+	};
+
+	const userDetails = useQuery('user', getUserDetails, {
+		/*
+		onSuccess: (userData) => {
+			if (userData?.status === 200) {
+				setDateState([
+					{
+						startDate: new Date(
+							userData?.data?.travelling_info?.user_policy_transaction[0]?.end_date
+						),
+						endDate: addDays(
+							new Date(userData?.data?.travelling_info?.user_policy_transaction[0]?.end_date),
+							30
+						),
+						key: 'selection',
+					},
+				]);
+			}
+		},
+
+		onError: (error) => {
+			toast.error(`${error?.response?.data?.STATUSMSG}`);
+			//logout();
+		},
+		staleTime: 500000,
+		*/
+	});
+
+	const USER_DETAILS = userDetails?.data?.data?.data
+		? userDetails?.data?.data?.data
+		: null;
+
+	// Change User password
 	const triggerPasswordChange = async (data) => {
 		const { data: response } = await axiosPrivate.put(
 			'/account/change-password',
@@ -122,100 +162,269 @@ const Profile = () => {
 	};
 
 	return (
-		<div className="tw-w-screen tw-min-h-screen tw-bg-[#FEFBFB] tw-py-20 lg:tw-pt-20 lg:tw-pl-56">
+		<div className="tw-w-full tw-min-h-screen tw-bg-[#FEFBFB] tw-py-20 lg:tw-pt-20 lg:tw-pl-56">
 			<DashboardNav />
 			<div className="tw-w-full tw-h-full tw-py-10  tw-px-6 md:tw-px-12 tw-flex tw-flex-col tw-justify-start tw-items-start tw-gap-10">
 				<h2 className="tw-text-2xl md:tw-text-3xl tw-font-semibold">
 					Applicant Profile
 				</h2>
 
-				{!userProfile.isLoading && USER_PROFILE && (
-					<div className="tw-w-full lg:tw-w-3/4 xl:tw-w-2/3 tw-h-fit tw-bg-white tw-shadow-sm tw-rounded-lg tw-py-5 tw-px-8 tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-5">
-						<div className="tw-w-full tw-flex tw-justify-between tw-items-center">
-							<h3 className="tw-font-medium tw-text-xl">Profile</h3>
-							{/** 
+				<div className="tw-w-full tw-grid tw-grid-cols-2 tw-gap-3">
+					{!userProfile.isLoading && USER_PROFILE ? (
+						<div className="tw-w-full tw-h-fit tw-bg-white tw-shadow-sm tw-rounded-lg tw-py-5 tw-px-8 tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-5">
+							<div className="tw-w-full tw-flex tw-justify-between tw-items-center">
+								<h3 className="tw-font-medium tw-text-xl">Profile</h3>
+								{/** 
 						 
 						<span className="tw-cursor-pointer tw-flex tw-justify-center tw-items-center tw-transition-all tw-duration-500 tw-ease-in-out tw-rounded-full tw-h-8 tw-w-8 tw-text-[#8e6abf] hover:tw-text-white hover:tw-bg-[#8e6abf] hover:tw-shadow-lg group-hover:tw-shadow-[#8e6abf]/50">
 							<TbEdit className="tw-text-xl" />
 						</span>
 						*/}
-						</div>
-						<div className="tw-w-full tw-flex tw-justify-start tw-items-center tw-gap-8 tw-pb-8 tw-border-b-2">
-							<div className="tw-hidden md:tw-block">
-								<Avatar
-									src="#"
-									className="tw-uppercase"
-									sx={{ width: '100px', height: '100px' }}>
-									{USER_PROFILE?.first_name?.[0]}
-									{USER_PROFILE?.last_name?.[0]}
-								</Avatar>
 							</div>
+							<div className="tw-w-full tw-flex tw-justify-start tw-items-center tw-gap-8 tw-pb-8 tw-border-b-2">
+								<div className="tw-hidden md:tw-block">
+									<Avatar
+										src="#"
+										className="tw-uppercase"
+										sx={{ width: '100px', height: '100px' }}>
+										{USER_PROFILE?.first_name?.[0]}
+										{USER_PROFILE?.last_name?.[0]}
+									</Avatar>
+								</div>
 
-							<div className="tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-3">
-								<h4 className="tw-font-medium tw-text-lg">
-									{USER_PROFILE?.first_name} {USER_PROFILE?.last_name}
-								</h4>
-								<span className="tw-flex tw-justify-start tw-items-center tw-gap-2">
-									<HiOutlineLocationMarker className="tw-text-xl tw-shrink-0 tw-text-gray-500" />
-									<p className="tw-text-sm">{USER_PROFILE?.country}</p>
-								</span>
-								<span className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-1 xl:tw-grid-cols-2 tw-place-content-start tw-place-items-start tw-gap-3">
+								<div className="tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-3">
+									<h4 className="tw-font-medium tw-text-lg">
+										{USER_PROFILE?.first_name} {USER_PROFILE?.last_name}
+									</h4>
+									<span className="tw-flex tw-justify-start tw-items-center tw-gap-2">
+										<HiOutlineLocationMarker className="tw-text-xl tw-shrink-0 tw-text-gray-500" />
+										<p className="tw-text-sm">{USER_PROFILE?.country}</p>
+									</span>
 									<span className="tw-flex tw-justify-start tw-items-center tw-gap-2">
 										<HiOutlineMail className="tw-text-xl tw-shrink-0 tw-text-gray-500" />
 										<p className="tw-text-sm tw-lowercase">
 											{USER_PROFILE?.email}
 										</p>
 									</span>
-									<span className="tw-w-full tw-flex tw-justify-start md:tw-justify-center lg:tw-justify-start xl:tw-justify-center tw-items-center tw-gap-2">
+									<span className="tw-w-full tw-flex tw-justify-start tw-items-center tw-gap-2">
 										<BsPhone className="tw-text-xl tw-shrink-0 tw-text-gray-500" />
 										<p className="tw-text-sm">+{USER_PROFILE?.telephone}</p>
 									</span>
+								</div>
+							</div>
+							<div className="tw-w-full tw-flex tw-justify-end tw-items-center">
+								<span
+									onClick={() => setChangePasswordModal((prev) => !prev)}
+									className="tw-cursor-pointer tw-font-bold tw-text-sm tw-text-[#8e6abf] tw-p-2 tw-rounded-lg hover:tw-bg-[#8e6abf]/10">
+									Change password
 								</span>
 							</div>
 						</div>
-						<div className="tw-w-full tw-flex tw-justify-end tw-items-center">
-							<span
-								onClick={() => setChangePasswordModal((prev) => !prev)}
-								className="tw-cursor-pointer tw-font-bold tw-text-sm tw-text-[#8e6abf] tw-p-2 tw-rounded-lg hover:tw-bg-[#8e6abf]/10">
-								Change password
-							</span>
-						</div>
-					</div>
-				)}
-
-				{userProfile.isLoading && (
-					<div className="tw-w-full lg:tw-w-2/3 tw-h-fit tw-bg-white tw-shadow-sm tw-rounded-lg tw-py-5 tw-px-8 tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-5">
-						<Stack spacing={1} sx={{ width: '100%' }}>
-							<Skeleton
-								variant="text"
-								sx={{ fontSize: '2.5rem', width: '100%' }}
-							/>
-							<div className="tw-w-full tw-flex tw-justify-start tw-gap-4 tw-items-start">
-								<div className="tw-w-fit">
-									<Skeleton variant="circular" width={100} height={100} />
+					) : (
+						<div className="tw-w-full tw-h-fit tw-bg-white tw-shadow-sm tw-rounded-lg tw-py-5 tw-px-8 tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-5">
+							<Stack spacing={1} sx={{ width: '100%' }}>
+								<Skeleton
+									variant="text"
+									sx={{ fontSize: '2rem', width: '40%' }}
+								/>
+								<div className="tw-w-full tw-flex tw-justify-start tw-gap-4 tw-items-start">
+									<div className="tw-w-fit">
+										<Skeleton variant="circular" width={100} height={100} />
+									</div>
+									<div className="tw-h-full tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start tw-gap-1">
+										<Skeleton
+											variant="text"
+											sx={{ fontSize: '1rem', width: '60%' }}
+										/>
+										<Skeleton
+											variant="text"
+											sx={{ fontSize: '1rem', width: '40%' }}
+										/>
+										<Skeleton
+											variant="text"
+											sx={{ fontSize: '1rem', width: '50%' }}
+										/>
+									</div>
 								</div>
+								<div className="tw-w-full tw-flex tw-justify-end tw-border-t tw-pt-4">
+									<Skeleton
+										variant="text"
+										sx={{ fontSize: '1rem', width: '35%' }}
+									/>
+								</div>
+							</Stack>
+						</div>
+					)}
+
+					{!userDetails.isLoading && USER_DETAILS ? (
+						<div className="tw-w-full tw-h-fit tw-bg-white tw-shadow-sm tw-rounded-lg tw-py-5 tw-px-8 tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-5">
+							<div className="tw-w-full tw-flex tw-justify-between tw-items-center">
+								<h3 className="tw-font-medium tw-text-xl">Additional Info</h3>
+							</div>
+
+							<div className="tw-w-full tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-3">
+								{/** Emergency Contact Information Area */}
+
+								<div className="tw-w-full tw-flex tw-h-fit tw-p-2 tw-gap-3 tw-flex-col tw-justify-start tw-items-start tw-border-[#171e41] tw-pb-4">
+									<h4 className="tw-w-fit tw-pb-2 tw-border-b-2 tw-border-[#171e41] tw-text-tw-left tw-font-title tw-font-medium !tw-text-md tw-text-[#171e41]">
+										Emergency Contact Information
+									</h4>
+									<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3">
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												given/first name
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_first_name'
+													]
+												}
+											</p>
+										</div>
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												surname/last name
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_last_name'
+													]
+												}
+											</p>
+										</div>
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												address
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_address'
+													]
+												}
+											</p>
+										</div>
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												phone number
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												+
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_telephone'
+													]
+												}
+											</p>
+										</div>
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												country
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_country'
+													]
+												}
+											</p>
+										</div>
+									</div>
+								</div>
+
+								{/** Emergency Contact in Ghana Information Area */}
+
+								<div className="tw-w-full tw-h-fit tw-p-2 tw-gap-3 tw-flex tw-flex-col tw-justify-start tw-items-start tw-border-[#171e41] tw-pb-4">
+									<h4 className="tw-w-fit tw-pb-2 tw-border-b-2 tw-border-[#171e41] tw-text-tw-left tw-font-title tw-font-medium !tw-text-md tw-text-[#171e41]">
+										Emergency Contact in Ghana Information
+									</h4>
+									<div className="tw-w-full tw-grid tw-grid-cols-1 md:tw-grid-cols-2 2xl:tw-grid-cols-3 tw-gap-5 tw-rounded-md tw-p-3">
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												given/first name
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_ghana_first_name'
+													]
+												}
+											</p>
+										</div>
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												surname/last name
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_ghana_last_name'
+													]
+												}
+											</p>
+										</div>
+										<div>
+											<p className="tw-capitalize tw-font-normal tw-text-xs tw-text-gray-500">
+												phone number
+											</p>
+											<p className="tw-font-medium tw-text-base tw-text-[#171e41]">
+												+
+												{
+													USER_DETAILS?.travelling_info[
+														'emergency_contact_ghana_telephone'
+													]
+												}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="tw-w-full tw-flex tw-justify-end tw-items-center">
+								<span
+									onClick={() => setChangePasswordModal((prev) => !prev)}
+									className="tw-cursor-pointer tw-font-bold tw-text-sm tw-text-[#8e6abf] tw-p-2 tw-rounded-lg hover:tw-bg-[#8e6abf]/10">
+									Update Info
+								</span>
+							</div>
+						</div>
+					) : (
+						<div className="tw-w-full tw-h-fit tw-bg-white tw-shadow-sm tw-rounded-lg tw-py-5 tw-px-8 tw-flex tw-flex-col tw-justify-center tw-items-start tw-gap-5">
+							<Stack spacing={1} sx={{ width: '100%' }}>
+								<Skeleton
+									variant="text"
+									sx={{ fontSize: '2rem', width: '40%' }}
+								/>
+
 								<div className="tw-h-full tw-w-full tw-flex tw-flex-col tw-justify-start tw-items-start tw-gap-1">
 									<Skeleton
 										variant="text"
-										sx={{ fontSize: '2rem', width: '100%' }}
+										sx={{ fontSize: '1rem', width: '37%' }}
 									/>
 									<Skeleton
 										variant="text"
-										sx={{ fontSize: '1rem', width: '100%' }}
+										sx={{ fontSize: '1rem', width: '45%' }}
 									/>
 									<Skeleton
 										variant="text"
-										sx={{ fontSize: '1rem', width: '100%' }}
+										sx={{ fontSize: '1rem', width: '30%' }}
+									/>
+									<Skeleton
+										variant="text"
+										sx={{ fontSize: '1rem', width: '50%' }}
 									/>
 								</div>
-							</div>
-							<Skeleton
-								variant="text"
-								sx={{ fontSize: '1rem', width: '100%' }}
-							/>
-						</Stack>
-					</div>
-				)}
+								<div className="tw-w-full tw-flex tw-justify-end tw-border-t tw-pt-4">
+									<Skeleton
+										variant="text"
+										sx={{ fontSize: '1rem', width: '35%' }}
+									/>
+								</div>
+							</Stack>
+						</div>
+					)}
+				</div>
 
 				{changePasswordModal && (
 					<div

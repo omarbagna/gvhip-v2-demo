@@ -8,24 +8,26 @@ import { Badge, IconButton, Skeleton, Stack, Tooltip } from '@mui/material';
 //import { BsPhone, BsQrCode } from 'react-icons/bs';
 //import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useQuery, useQueryClient } from 'react-query';
+import {
+	useQuery, //, useQueryClient
+} from 'react-query';
 import useAxiosAuth from 'hooks/useAxiosAuth';
 //import { MdOutlinePolicy } from 'react-icons/md';
 import dayjs from 'dayjs';
 import { TbEye } from 'react-icons/tb';
 import { IoClose } from 'react-icons/io5';
 import { differenceInDays } from 'date-fns';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import BlurImage from '@/components/BlurImage/BlurImage';
 
 const Dashboard = () => {
 	const axiosPrivate = useAxiosAuth();
 	const router = useRouter();
-	const queryClient = useQueryClient();
+	//const queryClient = useQueryClient();
 	const [histories, setHistories] = useState(null);
 	const [showExtensionHistory, setShowExtensionHistory] = useState(false);
 
-	const paymentQuery = router.query;
+	//const paymentQuery = router.query;
 
 	const getUserDetails = async () => {
 		const response = await axiosPrivate.get('/account/dashboard');
@@ -64,6 +66,7 @@ const Dashboard = () => {
 		? userDetails?.data?.data?.data
 		: null;
 
+	/*
 	const extendUserPolicyRequest = async () => {
 		toast.loading('Verifying Policy Extension', {
 			toastId: 'verifyExtension',
@@ -115,6 +118,7 @@ const Dashboard = () => {
 			enabled: paymentQuery?.uid ? true : false,
 		}
 	);
+	*/
 
 	return (
 		<div className="tw-max-w-screen tw-min-h-screen tw-bg-[#FEFBFB] tw-py-20 lg:tw-pt-20 lg:tw-pl-56">

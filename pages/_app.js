@@ -48,7 +48,7 @@ Ghana welcomes you with open arms!"
 				/>
 
 				<meta property="og:type" content="website" />
-				<meta property="og:url" content="https://gvhip-v2.netlify.app/" />
+				<meta property="og:url" content="https://gvhip-v2-demo.netlify.app/" />
 				<meta
 					property="og:title"
 					content="GVHIP - Ghana Visitors Health Insurance Platform"

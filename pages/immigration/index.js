@@ -6,7 +6,8 @@ import { useMutation, useQuery } from 'react-query';
 import { Backdrop, CircularProgress, Skeleton, Stack } from '@mui/material';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import useAxiosAuth from 'hooks/useAxiosAuth';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 
 import LineChart from '@/components/Dashboard/LineChart';
 import Link from 'next/link';
@@ -48,14 +49,12 @@ const nFormatter = (num) => {
 };
 
 const Dashboard = () => {
-	const axiosPrivate = useAxiosAuth();
-
 	const [filter, setFilter] = useState('this_year');
 
 	const getDashboardData = async (filter = 'this_year') => {
-		const response = await axiosPrivate.get(
-			`/admin/dashboard?filter=${filter}`
-		);
+		const url = `${baseUrl}/api/admin/dashboard`;
+
+		const response = await axios.post(url, filter);
 
 		return response;
 	};
@@ -84,13 +83,12 @@ const Dashboard = () => {
 
 		*/
 			onError: async (error) => {
-				console.log(error);
-				/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
+				const message = error?.response?.data?.message;
+				toast.error(message);
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
 				}
-				*/
 			},
 
 			//staleTime: 500000,

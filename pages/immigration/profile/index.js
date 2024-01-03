@@ -19,7 +19,8 @@ import DefaultInput from '@/components/Input/DefaultInput';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import useAxiosAuth from 'hooks/useAxiosAuth';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { signOut } from 'next-auth/react';
 const MySwal = withReactContent(Swal);
@@ -36,8 +37,6 @@ const alert = (title = null, text = null, icon = null) => {
 };
 
 const Profile = () => {
-	const axiosPrivate = useAxiosAuth();
-
 	const [changePasswordModal, setChangePasswordModal] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -52,7 +51,9 @@ const Profile = () => {
 	});
 
 	const getUserProfile = async () => {
-		const response = await axiosPrivate.get('/admin/profile');
+		const url = `${baseUrl}/api/admin/profile`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
@@ -78,16 +79,13 @@ const Profile = () => {
 
 		*/
 		onError: async (error) => {
-			console.log(error);
-			/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
-				}
-				*/
-		},
+			const message = error?.response?.data?.message;
+			toast.error(message);
 
-		//staleTime: 500000,
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
+		},
 	});
 
 	const USER_PROFILE = userProfile?.data?.data?.data
@@ -95,10 +93,9 @@ const Profile = () => {
 		: null;
 
 	const triggerPasswordChange = async (data) => {
-		const { data: response } = await axiosPrivate.put(
-			'/admin/change-password',
-			data
-		);
+		const url = `${baseUrl}/api/admin/change-password`;
+
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 
@@ -117,9 +114,11 @@ const Profile = () => {
 				}
 			},
 			onError: async (error) => {
-				if (error?.data?.message?.toLowercase() === 'unauthenticated') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
+				const message = error?.response?.data?.message;
+				toast.error(message);
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
 				}
 			},
 		}

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import axios from 'pages/api/axios';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import { useQuery } from 'react-query';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -14,9 +15,13 @@ const ThankYou = () => {
 	const paymentQuery = router.query;
 
 	const registerUserRequest = async () => {
-		const response = await axios.post(
-			`/register/${paymentQuery?.uid}?checkoutid=${paymentQuery?.checkoutid}`
-		);
+		const url = `${baseUrl}/api/register-user`;
+		const payload = {
+			uid: paymentQuery?.uid,
+			checkoutid: paymentQuery?.checkoutid,
+		};
+
+		const response = await axios.post(url, payload);
 
 		return response;
 	};

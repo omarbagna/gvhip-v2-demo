@@ -28,7 +28,8 @@ import {
 	Typography,
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import useAxiosAuth from 'hooks/useAxiosAuth';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 import dayjs from 'dayjs';
 import { IoAdd, IoClose } from 'react-icons/io5';
@@ -41,10 +42,9 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css';
 import { toast } from 'react-toastify';
 import DefaultInput from '@/components/Input/DefaultInput';
+import { signOut } from 'next-auth/react';
 
 const ManagePolicy = () => {
-	const axiosPrivate = useAxiosAuth();
-
 	const queryClient = useQueryClient();
 
 	const [managePolicy, setManagePolicy] = useState(false);
@@ -85,7 +85,9 @@ const ManagePolicy = () => {
 	});
 
 	const getUserDetails = async () => {
-		const response = await axiosPrivate.get('/account/dashboard');
+		const url = `${baseUrl}/api/user/dashboard`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
@@ -108,14 +110,16 @@ const ManagePolicy = () => {
 				]);
 			}
 		},
-
-		onError: (error) => {
-			toast.error(`${error?.response?.data?.STATUSMSG}`);
-			//logout();
-		},
 		*/
 
-		staleTime: 500000,
+		onError: async (error) => {
+			const message = error?.response?.data?.message;
+			toast.error(message);
+
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
+		},
 	});
 
 	const USER_DETAILS = userDetails?.data?.data?.data
@@ -123,12 +127,22 @@ const ManagePolicy = () => {
 		: null;
 
 	const getExtensionDetails = async () => {
-		const response = await axiosPrivate.get('/account/extension-history');
+		const url = `${baseUrl}/api/user/extension-history`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
 
 	const extensionDetails = useQuery('extensions', getExtensionDetails, {
+		onError: async (error) => {
+			const message = error?.response?.data?.message;
+			toast.error(message);
+
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
+		},
 		enabled: showExtensionHistory,
 	});
 
@@ -309,10 +323,9 @@ const ManagePolicy = () => {
 	}, [dateStates, reset]);
 
 	const submitExtendPolicy = async (data) => {
-		const { data: response } = await axiosPrivate.post(
-			'/account/initialize-extension-payment',
-			data
-		);
+		const url = `${baseUrl}/api/user/extension-payment`;
+
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 
@@ -332,8 +345,13 @@ const ManagePolicy = () => {
 					toast.error('Extension Failed');
 				}
 			},
-			onError: (error) => {
-				toast.error(error?.message);
+			onError: async (error) => {
+				const message = error?.response?.data?.message;
+				toast.error(message);
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
+				}
 			},
 		}
 	);

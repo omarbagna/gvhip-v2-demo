@@ -5,7 +5,8 @@ import DashboardNav from '@/components/Layout/Navigations/DashboardNav';
 import { Chip, Skeleton, Stack } from '@mui/material';
 import { useQuery } from 'react-query';
 
-import useAxiosAuth from 'hooks/useAxiosAuth';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import StatsTable from '@/components/Table/StatsTable';
 import dayjs from 'dayjs';
 import { useStateContext } from 'context/StateContext';
@@ -13,6 +14,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { differenceInDays } from 'date-fns';
 import { useRouter } from 'next/router';
 import BlurImage from '@/components/BlurImage/BlurImage';
+import { toast } from 'react-toastify';
+import { signOut } from 'next-auth/react';
 
 const columns = [
 	{
@@ -74,7 +77,6 @@ const columns = [
 ];
 
 const Statistics = () => {
-	const axiosPrivate = useAxiosAuth();
 	const router = useRouter();
 	const { selectedQuery } = router.query;
 	const {
@@ -90,9 +92,9 @@ const Statistics = () => {
 	const [filter, setFilter] = useState('this_year');
 
 	const getStatisticsData = async (filter = 'this_year') => {
-		const response = await axiosPrivate.get(
-			`/admin/statistics?filter=${filter}`
-		);
+		const url = `${baseUrl}/api/admin/statistics`;
+
+		const response = await axios.post(url, filter);
 
 		return response;
 	};
@@ -101,14 +103,13 @@ const Statistics = () => {
 		['stats', filter],
 		() => getStatisticsData(filter),
 		{
-			onError: (error) => {
-				console.log(error);
-				/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
+			onError: async (error) => {
+				const message = error?.response?.data?.message;
+				toast.error(message);
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
 				}
-				*/
 			},
 		}
 	);

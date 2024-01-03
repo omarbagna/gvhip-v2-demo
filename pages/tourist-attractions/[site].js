@@ -7,15 +7,19 @@ import Link from 'next/link';
 import { AiOutlinePhone } from 'react-icons/ai';
 import { TbWorldWww } from 'react-icons/tb';
 import ActivitiesGrid from '@/components/TouristSite/ActivitiesGrid';
-import axios from 'pages/api/axios';
 import { useQuery } from 'react-query';
+import axios from 'axios';
+import baseUrl from '@/utils/baseUrl';
 
 const Site = () => {
 	const router = useRouter();
 	const location = router.query;
 
 	const getTouristAttraction = async () => {
-		const response = await axios.get(`/tourist-attraction/${location?.site}`);
+		const url = `${baseUrl}/api/single-tourist-attraction`;
+		const payload = { site: location?.site };
+
+		const response = await axios.post(url, payload);
 
 		return response;
 	};
@@ -32,8 +36,8 @@ const Site = () => {
 		}
 	);
 
-	const ATTRACTION = touristAttraction?.data?.data?.data
-		? touristAttraction?.data?.data?.data
+	const ATTRACTION = touristAttraction?.data?.data
+		? touristAttraction?.data?.data
 		: null;
 
 	return (

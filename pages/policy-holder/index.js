@@ -7,22 +7,25 @@ import { Badge, IconButton, Skeleton, Stack, Tooltip } from '@mui/material';
 //import { HiOutlineLocationMarker, HiOutlineMail } from 'react-icons/hi';
 //import { BsPhone, BsQrCode } from 'react-icons/bs';
 //import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import {
 	useQuery, //, useQueryClient
 } from 'react-query';
-import useAxiosAuth from 'hooks/useAxiosAuth';
+// import useAxiosAuth from 'hooks/useAxiosAuth';
 //import { MdOutlinePolicy } from 'react-icons/md';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { TbEye } from 'react-icons/tb';
 import { IoClose } from 'react-icons/io5';
 import { differenceInDays } from 'date-fns';
 //import { toast } from 'react-toastify';
 import BlurImage from '@/components/BlurImage/BlurImage';
+import { signOut } from 'next-auth/react';
 
 const Dashboard = () => {
-	const axiosPrivate = useAxiosAuth();
-	const router = useRouter();
+	// const axiosPrivate = useAxiosAuth();
+	// const router = useRouter();
 	//const queryClient = useQueryClient();
 	const [histories, setHistories] = useState(null);
 	const [showExtensionHistory, setShowExtensionHistory] = useState(false);
@@ -30,7 +33,9 @@ const Dashboard = () => {
 	//const paymentQuery = router.query;
 
 	const getUserDetails = async () => {
-		const response = await axiosPrivate.get('/account/dashboard');
+		const url = `${baseUrl}/api/user/dashboard`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
@@ -54,12 +59,15 @@ const Dashboard = () => {
 			}
 		},
 
-		onError: (error) => {
-			toast.error(`${error?.response?.data?.STATUSMSG}`);
-			//logout();
-		},
-		staleTime: 500000,
 		*/
+		onError: async (error) => {
+			const message = error?.response?.data?.message;
+			toast.error(message);
+
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
+		},
 	});
 
 	const USER_DETAILS = userDetails?.data?.data?.data

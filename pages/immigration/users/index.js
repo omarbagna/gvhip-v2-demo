@@ -5,16 +5,16 @@ import DashboardNav from '@/components/Layout/Navigations/DashboardNav';
 import { Chip, Skeleton, Stack } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import useAxiosAuth from 'hooks/useAxiosAuth';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import UsersTable from '@/components/Table/UsersTable';
 import { useStateContext } from 'context/StateContext';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Controller, useForm } from 'react-hook-form';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import DefaultInput from '@/components/Input/DefaultInput';
 import SelectInput from '@/components/Input/SelectInput';
 import { toast } from 'react-toastify';
-import axios from 'pages/api/axios';
 
 const columns = [
 	{
@@ -59,7 +59,6 @@ const columns = [
 
 const Users = () => {
 	const { data: session, status } = useSession();
-	const axiosPrivate = useAxiosAuth();
 	const queryClient = useQueryClient();
 	const { viewUser, setViewUser, viewUserData, setViewUserData } =
 		useStateContext();
@@ -70,20 +69,21 @@ const Users = () => {
 
 	// Fetch Users list
 	const getUsers = async () => {
-		const response = await axiosPrivate.get(`/admin/users`);
+		const url = `${baseUrl}/api/admin/get-users`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
 
 	const usersData = useQuery('users', getUsers, {
-		onError: (error) => {
-			console.log(error);
-			/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
-				}
-				*/
+		onError: async (error) => {
+			const message = error?.response?.data?.message;
+			toast.error(message);
+
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
 		},
 	});
 
@@ -93,22 +93,21 @@ const Users = () => {
 
 	// Fetch Individual User Data
 	const getUser = async () => {
-		const response = await axiosPrivate.get(
-			`/admin/users/show?id=${viewUserData?.id}`
-		);
+		const url = `${baseUrl}/api/admin/show-user`;
+
+		const response = await axios.post(url, { id: viewUserData?.id });
 
 		return response;
 	};
 
 	const userData = useQuery(['user', viewUserData?.id], getUser, {
-		onError: (error) => {
-			console.log(error);
-			/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
-				}
-				*/
+		onError: async (error) => {
+			const message = error?.response?.data?.message;
+			toast.error(message);
+
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
 		},
 
 		enabled: viewUser,
@@ -136,10 +135,10 @@ const Users = () => {
 		toast.loading('Creating user', {
 			toastId: 'creatingUser',
 		});
-		const { data: response } = await axiosPrivate.post(
-			'admin/users/create',
-			data
-		);
+
+		const url = `${baseUrl}/api/admin/create-user`;
+
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 
@@ -167,14 +166,18 @@ const Users = () => {
 					});
 				}
 			},
-			onError: (error) => {
-				console.log(error);
+			onError: async (error) => {
+				const message = error?.response?.data?.message;
 				toast.update('creatingUser', {
-					render: error?.data?.message,
+					render: message,
 					type: 'error',
 					isLoading: false,
 					autoClose: 4500,
 				});
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
+				}
 			},
 		}
 	);
@@ -201,10 +204,11 @@ const Users = () => {
 		toast.loading('Editing user', {
 			toastId: 'editingUser',
 		});
-		const { data: response } = await axiosPrivate.put(
-			'admin/users/update',
-			data
-		);
+
+		const url = `${baseUrl}/api/admin/edit-user`;
+
+		const { data: response } = await axios.post(url, data);
+
 		return response;
 	};
 
@@ -234,14 +238,18 @@ const Users = () => {
 					});
 				}
 			},
-			onError: (error) => {
-				console.log(error);
+			onError: async (error) => {
+				const message = error?.response?.data?.message;
 				toast.update('editingUser', {
-					render: error?.data?.message,
+					render: message,
 					type: 'error',
 					isLoading: false,
 					autoClose: 4500,
 				});
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
+				}
 			},
 		}
 	);
@@ -253,13 +261,13 @@ const Users = () => {
 
 	// Reset user password
 	const triggerPasswordReset = async (data) => {
+		const url = `${baseUrl}/api/send-reset-link`;
+
 		toast.loading('Sending reset link', {
 			toastId: 'sendingLink',
 		});
-		const { data: response } = await axios.post(
-			'/send-password-reset-link',
-			data
-		);
+		const { data: response } = await axios.post(url, data);
+
 		return response;
 	};
 

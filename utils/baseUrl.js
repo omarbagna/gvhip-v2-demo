@@ -1,6 +1,6 @@
 const baseUrl =
 	process.env.NODE_ENV === 'production'
-		? 'https://gsti-test.netlify.app'
+		? process.env.NEXT_PUBLIC_URL
 		: 'http://localhost:3000';
 
 export default baseUrl;

@@ -1,5 +1,6 @@
+import baseUrl from '@/utils/baseUrl';
 import { Backdrop, CircularProgress } from '@mui/material';
-import axios from 'pages/api/axios';
+import axios from 'axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -20,13 +21,12 @@ const LostPasswordForm = () => {
 	};
 
 	const triggerPasswordReset = async (data) => {
+		const url = `${baseUrl}/api/send-reset-link`;
+
 		toast.loading('Sending reset link', {
 			toastId: 'sendingLink',
 		});
-		const { data: response } = await axios.post(
-			'/send-password-reset-link',
-			data
-		);
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 

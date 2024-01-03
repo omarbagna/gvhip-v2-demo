@@ -6,9 +6,10 @@ import { Controller, useForm } from 'react-hook-form';
 import DefaultInput from '../Input/DefaultInput';
 import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
-import axios from 'pages/api/axios';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 
 const ResetPasswordForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -25,10 +26,12 @@ const ResetPasswordForm = () => {
 	const resetParams = router.query;
 
 	const triggerPasswordReset = async (data) => {
+		const url = `${baseUrl}/api/reset-password`;
+
 		toast.loading('Resetting password', {
 			toastId: 'resettingPassword',
 		});
-		const { data: response } = await axios.post('/reset-password', data);
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 
@@ -46,6 +49,7 @@ const ResetPasswordForm = () => {
 					});
 
 					reset();
+					router.push('/authentication');
 				} else if (data?.status !== 200) {
 					toast.update('resettingPassword', {
 						render: 'Password reset failed',

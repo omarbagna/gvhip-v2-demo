@@ -4,11 +4,14 @@ import FooterFour from '@/components/Layout/Footer/FooterFour';
 import AttractionsBanner from '@/components/TouristAttractions/AttractionsBanner';
 import { useQuery } from 'react-query';
 import AttractionsGrid from '@/components/TouristAttractions/AttractionsGrid';
-import axios from 'pages/api/axios';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 
 const TouristSites = () => {
 	const getTouristAttractions = async () => {
-		const response = await axios.get('/tourist-attractions');
+		const url = `${baseUrl}/api/tourist-attractions`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
@@ -19,8 +22,8 @@ const TouristSites = () => {
 		},
 	});
 
-	const ATTRACTIONS = touristAttractions?.data?.data?.data
-		? touristAttractions?.data?.data?.data
+	const ATTRACTIONS = touristAttractions?.data?.data
+		? touristAttractions?.data?.data
 		: null;
 
 	return (

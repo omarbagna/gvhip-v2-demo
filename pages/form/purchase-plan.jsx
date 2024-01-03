@@ -30,7 +30,8 @@ import { useMutation, useQuery } from 'react-query';
 import { MdDelete, MdEdit, MdOutlineExpandMore } from 'react-icons/md';
 import { IoAdd } from 'react-icons/io5';
 import { planTabsData } from 'data/plansData';
-import axios from 'pages/api/axios';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import DependantArray from '@/components/Form/dependantArray';
 import PhoneInput from 'react-phone-input-2';
@@ -54,15 +55,15 @@ const Form = () => {
 
 	// Fetch the pricing plans
 	const getPricingPlans = async () => {
-		const response = await axios.get(`/pricing-plans`);
+		const url = `${baseUrl}/api/pricing-plans`;
+
+		const response = await axios.get(url);
 		return response;
 	};
 
 	const pricingPlans = useQuery('pricing-plans', getPricingPlans);
 
-	const PRICING = pricingPlans?.data?.data?.data
-		? pricingPlans?.data?.data?.data
-		: null;
+	const PRICING = pricingPlans?.data?.data ? pricingPlans?.data?.data : null;
 
 	const DURATION_PRICING = PRICING?.map((item) => ({
 		name: `${item?.duration} days at ${item?.price} USD (${item?.discount}% off)`,
@@ -71,9 +72,10 @@ const Form = () => {
 
 	// Fetch the temporal data of the user only if the url contains a UID
 	const getTemporalData = async () => {
-		const response = await axios.get(
-			`/get-user-data?uid=${temporalQuery?.uid}`
-		);
+		const url = `${baseUrl}/api/get-temporal-data`;
+		const payload = { uid: temporalQuery?.uid };
+
+		const response = await axios.post(url, payload);
 
 		return response;
 	};
@@ -160,7 +162,8 @@ const Form = () => {
 
 	// Save temporal data Request
 	const saveTemporalDataRequest = async (data) => {
-		const { data: response } = await axios.post('/temporary-user-data', data);
+		const url = `${baseUrl}/api/save-temporal-data`;
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 
@@ -324,7 +327,9 @@ const Form = () => {
 
 	// Send payment request
 	const paymentRequest = async (data) => {
-		const { data: response } = await axios.post('/make-payment', data);
+		const url = `${baseUrl}/api/make-payment`;
+
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 

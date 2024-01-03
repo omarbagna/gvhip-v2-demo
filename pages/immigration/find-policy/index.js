@@ -15,7 +15,8 @@ import {
 } from '@mui/material';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import useAxiosAuth from 'hooks/useAxiosAuth';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import { IoClose } from 'react-icons/io5';
 import dayjs from 'dayjs';
 import { differenceInDays } from 'date-fns';
@@ -23,6 +24,8 @@ import { differenceInDays } from 'date-fns';
 //import { toast } from 'react-toastify';
 import PolicySearch from '@/components/Form/policySearch';
 import BlurImage from '@/components/BlurImage/BlurImage';
+import { toast } from 'react-toastify';
+import { signOut } from 'next-auth/react';
 const MySwal = withReactContent(Swal);
 
 const alert = (title = null, text = null, icon = null) => {
@@ -37,8 +40,6 @@ const alert = (title = null, text = null, icon = null) => {
 };
 
 const FindPolicy = () => {
-	const axiosPrivate = useAxiosAuth();
-
 	const [declinePolicyModal, setDeclinePolicyModal] = useState(false);
 	const [policyHolder, setPolicyHolder] = useState(null);
 	const [policyFound, setPolicyFound] = useState(false);
@@ -54,9 +55,10 @@ const FindPolicy = () => {
 
 	// Search for a Policy Holder
 	const searchPolicy = async (data) => {
-		const { data: response } = await axiosPrivate.get(
-			`/admin/search-user?search_type=${data?.search_type}&search_term=${data?.search_term}`
-		);
+		const url = `${baseUrl}/api/admin/search-user`;
+
+		const { data: response } = await axios.post(url, data);
+
 		return response;
 	};
 
@@ -105,10 +107,9 @@ const FindPolicy = () => {
 	});
 
 	const triggerDeclinePolicy = async (data) => {
-		const { data: response } = await axiosPrivate.put(
-			'/admin/verify-user-trip',
-			data
-		);
+		const url = `${baseUrl}/api/admin/verify-user`;
+
+		const { data: response } = await axios.post(url, data);
 		return response;
 	};
 
@@ -131,13 +132,12 @@ const FindPolicy = () => {
 				}
 			},
 			onError: async (error) => {
-				console.log(error);
-				/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
+				const message = error?.response?.data?.message;
+				toast.error(message);
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
 				}
-				*/
 			},
 		}
 	);
@@ -158,10 +158,10 @@ const FindPolicy = () => {
 
 	// Verify a Policy Holder
 	const triggerVerifyPolicy = async (data) => {
-		const { data: response } = await axiosPrivate.put(
-			'/admin/verify-user-trip',
-			data
-		);
+		const url = `${baseUrl}/api/admin/verify-user`;
+
+		const { data: response } = await axios.post(url, data);
+
 		return response;
 	};
 
@@ -182,13 +182,12 @@ const FindPolicy = () => {
 				}
 			},
 			onError: async (error) => {
-				console.log(error);
-				/*
-				if (error?.data?.message?.toLowercase() === 'unauthenticated.') {
-					toast.error('Session expired');
-					return await signOut({ callbackUrl: '/' });
+				const message = error?.response?.data?.message;
+				toast.error(message);
+
+				if (message?.toLowerCase() === 'unauthenticated.') {
+					await signOut({ callbackUrl: '/authentication' });
 				}
-				*/
 			},
 		}
 	);

@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { Skeleton } from '@mui/material';
 import BlurImage from '@/components/BlurImage/BlurImage';
 import { useQuery } from 'react-query';
+import baseUrl from '@/utils/baseUrl';
+import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, A11y, EffectCoverflow } from 'swiper';
-import axios from 'pages/api/axios';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -13,7 +14,9 @@ import 'swiper/css/effect-coverflow';
 
 const TouristAttractions = () => {
 	const getTouristAttractions = async () => {
-		const response = await axios.get('/tourist-attractions');
+		const url = `${baseUrl}/api/tourist-attractions`;
+
+		const response = await axios.get(url);
 
 		return response;
 	};
@@ -24,8 +27,8 @@ const TouristAttractions = () => {
 		},
 	});
 
-	const ATTRACTIONS = touristAttractions?.data?.data?.data
-		? touristAttractions?.data?.data?.data
+	const ATTRACTIONS = touristAttractions?.data?.data
+		? touristAttractions?.data?.data
 		: null;
 
 	return (

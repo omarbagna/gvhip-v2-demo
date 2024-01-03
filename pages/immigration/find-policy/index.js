@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import { IoClose } from 'react-icons/io5';
 import dayjs from 'dayjs';
@@ -55,7 +55,7 @@ const FindPolicy = () => {
 
 	// Search for a Policy Holder
 	const searchPolicy = async (data) => {
-		const url = `${baseUrl}/api/admin/search-user`;
+		const url = `/api/admin/search-user`;
 
 		const { data: response } = await axios.post(url, data);
 
@@ -107,7 +107,7 @@ const FindPolicy = () => {
 	});
 
 	const triggerDeclinePolicy = async (data) => {
-		const url = `${baseUrl}/api/admin/verify-user`;
+		const url = `/api/admin/verify-user`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;
@@ -158,7 +158,7 @@ const FindPolicy = () => {
 
 	// Verify a Policy Holder
 	const triggerVerifyPolicy = async (data) => {
-		const url = `${baseUrl}/api/admin/verify-user`;
+		const url = `/api/admin/verify-user`;
 
 		const { data: response } = await axios.post(url, data);
 

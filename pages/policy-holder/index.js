@@ -13,7 +13,7 @@ import {
 } from 'react-query';
 // import useAxiosAuth from 'hooks/useAxiosAuth';
 //import { MdOutlinePolicy } from 'react-icons/md';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { TbEye } from 'react-icons/tb';
@@ -33,7 +33,7 @@ const Dashboard = () => {
 	//const paymentQuery = router.query;
 
 	const getUserDetails = async () => {
-		const url = `${baseUrl}/api/user/dashboard`;
+		const url = `/api/user/dashboard`;
 
 		const response = await axios.get(url);
 

@@ -28,7 +28,7 @@ import {
 	Typography,
 } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 import dayjs from 'dayjs';
@@ -85,7 +85,7 @@ const ManagePolicy = () => {
 	});
 
 	const getUserDetails = async () => {
-		const url = `${baseUrl}/api/user/dashboard`;
+		const url = `/api/user/dashboard`;
 
 		const response = await axios.get(url);
 
@@ -127,7 +127,7 @@ const ManagePolicy = () => {
 		: null;
 
 	const getExtensionDetails = async () => {
-		const url = `${baseUrl}/api/user/extension-history`;
+		const url = `/api/user/extension-history`;
 
 		const response = await axios.get(url);
 
@@ -323,7 +323,7 @@ const ManagePolicy = () => {
 	}, [dateStates, reset]);
 
 	const submitExtendPolicy = async (data) => {
-		const url = `${baseUrl}/api/user/extension-payment`;
+		const url = `/api/user/extension-payment`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;

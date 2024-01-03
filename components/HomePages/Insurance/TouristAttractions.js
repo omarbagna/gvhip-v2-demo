@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Skeleton } from '@mui/material';
 import BlurImage from '@/components/BlurImage/BlurImage';
 import { useQuery } from 'react-query';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, A11y, EffectCoverflow } from 'swiper';
@@ -14,7 +14,7 @@ import 'swiper/css/effect-coverflow';
 
 const TouristAttractions = () => {
 	const getTouristAttractions = async () => {
-		const url = `${baseUrl}/api/tourist-attractions`;
+		const url = `/api/tourist-attractions`;
 
 		const response = await axios.get(url);
 

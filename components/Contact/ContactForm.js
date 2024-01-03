@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import GoogleMap from './GoogleMap';
 import Link from 'next/link';
 
@@ -39,7 +39,7 @@ const ContactForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = `${baseUrl}/api/contact`;
+			const url = `/api/contact`;
 			const { name, email, number, subject, text } = contact;
 			const payload = { name, email, number, subject, text };
 			const response = await axios.post(url, payload);

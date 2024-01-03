@@ -30,7 +30,7 @@ import { useMutation, useQuery } from 'react-query';
 import { MdDelete, MdEdit, MdOutlineExpandMore } from 'react-icons/md';
 import { IoAdd } from 'react-icons/io5';
 import { planTabsData } from 'data/plansData';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import DependantArray from '@/components/Form/dependantArray';
@@ -55,7 +55,7 @@ const Form = () => {
 
 	// Fetch the pricing plans
 	const getPricingPlans = async () => {
-		const url = `${baseUrl}/api/pricing-plans`;
+		const url = `/api/pricing-plans`;
 
 		const response = await axios.get(url);
 		return response;
@@ -72,7 +72,7 @@ const Form = () => {
 
 	// Fetch the temporal data of the user only if the url contains a UID
 	const getTemporalData = async () => {
-		const url = `${baseUrl}/api/get-temporal-data`;
+		const url = `/api/get-temporal-data`;
 		const payload = { uid: temporalQuery?.uid };
 
 		const response = await axios.post(url, payload);
@@ -162,7 +162,7 @@ const Form = () => {
 
 	// Save temporal data Request
 	const saveTemporalDataRequest = async (data) => {
-		const url = `${baseUrl}/api/save-temporal-data`;
+		const url = `/api/save-temporal-data`;
 		const { data: response } = await axios.post(url, data);
 		return response;
 	};
@@ -327,7 +327,7 @@ const Form = () => {
 
 	// Send payment request
 	const paymentRequest = async (data) => {
-		const url = `${baseUrl}/api/make-payment`;
+		const url = `/api/make-payment`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;

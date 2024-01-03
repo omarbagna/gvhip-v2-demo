@@ -5,7 +5,7 @@ import DashboardNav from '@/components/Layout/Navigations/DashboardNav';
 import { Chip, Skeleton, Stack } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import UsersTable from '@/components/Table/UsersTable';
 import { useStateContext } from 'context/StateContext';
@@ -69,7 +69,7 @@ const Users = () => {
 
 	// Fetch Users list
 	const getUsers = async () => {
-		const url = `${baseUrl}/api/admin/get-users`;
+		const url = `/api/admin/get-users`;
 
 		const response = await axios.get(url);
 
@@ -93,7 +93,7 @@ const Users = () => {
 
 	// Fetch Individual User Data
 	const getUser = async () => {
-		const url = `${baseUrl}/api/admin/show-user`;
+		const url = `/api/admin/show-user`;
 
 		const response = await axios.post(url, { id: viewUserData?.id });
 
@@ -136,7 +136,7 @@ const Users = () => {
 			toastId: 'creatingUser',
 		});
 
-		const url = `${baseUrl}/api/admin/create-user`;
+		const url = `/api/admin/create-user`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;
@@ -205,7 +205,7 @@ const Users = () => {
 			toastId: 'editingUser',
 		});
 
-		const url = `${baseUrl}/api/admin/edit-user`;
+		const url = `/api/admin/edit-user`;
 
 		const { data: response } = await axios.post(url, data);
 
@@ -261,7 +261,7 @@ const Users = () => {
 
 	// Reset user password
 	const triggerPasswordReset = async (data) => {
-		const url = `${baseUrl}/api/send-reset-link`;
+		const url = `/api/send-reset-link`;
 
 		toast.loading('Sending reset link', {
 			toastId: 'sendingLink',

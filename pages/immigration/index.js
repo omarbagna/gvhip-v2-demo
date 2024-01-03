@@ -6,7 +6,7 @@ import { useMutation, useQuery } from 'react-query';
 import { Backdrop, CircularProgress, Skeleton, Stack } from '@mui/material';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 
 import LineChart from '@/components/Dashboard/LineChart';
@@ -52,7 +52,7 @@ const Dashboard = () => {
 	const [filter, setFilter] = useState('this_year');
 
 	const getDashboardData = async (filter = 'this_year') => {
-		const url = `${baseUrl}/api/admin/dashboard`;
+		const url = `/api/admin/dashboard`;
 
 		const response = await axios.post(url, filter);
 

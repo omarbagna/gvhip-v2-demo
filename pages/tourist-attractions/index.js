@@ -4,12 +4,12 @@ import FooterFour from '@/components/Layout/Footer/FooterFour';
 import AttractionsBanner from '@/components/TouristAttractions/AttractionsBanner';
 import { useQuery } from 'react-query';
 import AttractionsGrid from '@/components/TouristAttractions/AttractionsGrid';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 
 const TouristSites = () => {
 	const getTouristAttractions = async () => {
-		const url = `${baseUrl}/api/tourist-attractions`;
+		const url = `/api/tourist-attractions`;
 
 		const response = await axios.get(url);
 

@@ -8,7 +8,7 @@ import { IconButton, InputAdornment, Tooltip } from '@mui/material';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 
 const ResetPasswordForm = () => {
@@ -26,7 +26,7 @@ const ResetPasswordForm = () => {
 	const resetParams = router.query;
 
 	const triggerPasswordReset = async (data) => {
-		const url = `${baseUrl}/api/reset-password`;
+		const url = `/api/reset-password`;
 
 		toast.loading('Resetting password', {
 			toastId: 'resettingPassword',

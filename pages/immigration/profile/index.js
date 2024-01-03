@@ -19,7 +19,7 @@ import DefaultInput from '@/components/Input/DefaultInput';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { signOut } from 'next-auth/react';
@@ -51,7 +51,7 @@ const Profile = () => {
 	});
 
 	const getUserProfile = async () => {
-		const url = `${baseUrl}/api/admin/profile`;
+		const url = `/api/admin/profile`;
 
 		const response = await axios.get(url);
 
@@ -93,7 +93,7 @@ const Profile = () => {
 		: null;
 
 	const triggerPasswordChange = async (data) => {
-		const url = `${baseUrl}/api/admin/change-password`;
+		const url = `/api/admin/change-password`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;

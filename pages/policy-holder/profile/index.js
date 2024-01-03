@@ -22,7 +22,7 @@ import DefaultInput from '@/components/Input/DefaultInput';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { signOut } from 'next-auth/react';
@@ -66,7 +66,7 @@ const Profile = () => {
 
 	// Fetch User Profile Information
 	const getUserProfile = async () => {
-		const url = `${baseUrl}/api/user/profile`;
+		const url = `/api/user/profile`;
 
 		const response = await axios.get(url);
 
@@ -109,7 +109,7 @@ const Profile = () => {
 
 	// Fetch User Details
 	const getUserDetails = async () => {
-		const url = `${baseUrl}/api/user/dashboard`;
+		const url = `/api/user/dashboard`;
 
 		const response = await axios.get(url);
 
@@ -180,7 +180,7 @@ const Profile = () => {
 
 	// Change User password
 	const triggerPasswordChange = async (data) => {
-		const url = `${baseUrl}/api/user/change-password`;
+		const url = `/api/user/change-password`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;
@@ -223,7 +223,7 @@ const Profile = () => {
 			toastId: 'updatingProfile',
 		});
 
-		const url = `${baseUrl}/api/user/update-profile`;
+		const url = `/api/user/update-profile`;
 
 		const { data: response } = await axios.post(url, data);
 		return response;

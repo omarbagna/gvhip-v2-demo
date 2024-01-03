@@ -5,7 +5,7 @@ import DashboardNav from '@/components/Layout/Navigations/DashboardNav';
 import { Chip, Skeleton, Stack } from '@mui/material';
 import { useQuery } from 'react-query';
 
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import axios from 'axios';
 import StatsTable from '@/components/Table/StatsTable';
 import dayjs from 'dayjs';
@@ -92,7 +92,7 @@ const Statistics = () => {
 	const [filter, setFilter] = useState('this_year');
 
 	const getStatisticsData = async (filter = 'this_year') => {
-		const url = `${baseUrl}/api/admin/statistics`;
+		const url = `/api/admin/statistics`;
 
 		const response = await axios.post(url, filter);
 

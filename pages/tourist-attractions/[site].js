@@ -9,14 +9,14 @@ import { TbWorldWww } from 'react-icons/tb';
 import ActivitiesGrid from '@/components/TouristSite/ActivitiesGrid';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 
 const Site = () => {
 	const router = useRouter();
 	const location = router.query;
 
 	const getTouristAttraction = async () => {
-		const url = `${baseUrl}/api/single-tourist-attraction`;
+		const url = `/api/single-tourist-attraction`;
 		const payload = { site: location?.site };
 
 		const response = await axios.post(url, payload);

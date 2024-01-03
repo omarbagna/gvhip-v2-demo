@@ -1,4 +1,4 @@
-import baseUrl from '@/utils/baseUrl';
+// import baseUrl from '@/utils/baseUrl';
 import { Backdrop, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
@@ -21,7 +21,7 @@ const LostPasswordForm = () => {
 	};
 
 	const triggerPasswordReset = async (data) => {
-		const url = `${baseUrl}/api/send-reset-link`;
+		const url = `/api/send-reset-link`;
 
 		toast.loading('Sending reset link', {
 			toastId: 'sendingLink',

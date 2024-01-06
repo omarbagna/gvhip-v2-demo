@@ -54,7 +54,7 @@ const Dashboard = () => {
 	const getDashboardData = async (filter = 'this_year') => {
 		const url = `/api/admin/dashboard`;
 
-		const response = await axios.post(url, filter);
+		const response = await axios.post(url, { filter: filter });
 
 		return response;
 	};

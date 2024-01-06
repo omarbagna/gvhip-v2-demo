@@ -22,6 +22,10 @@ import { signOut, useSession } from 'next-auth/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { TbCalendarStats } from 'react-icons/tb';
 import BlurImage from '@/components/BlurImage/BlurImage';
+import { IoWalletOutline } from 'react-icons/io5';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 //import useAxiosAuth from 'hooks/useAxiosAuth';
 
 const DashboardNav = () => {
@@ -43,6 +47,29 @@ const DashboardNav = () => {
 
 		setLoading(false);
 	};
+
+	const getUserDetails = async () => {
+		const url = `/api/user/dashboard`;
+
+		const response = await axios.get(url);
+
+		return response;
+	};
+
+	const userDetails = useQuery('user', getUserDetails, {
+		onError: async (error) => {
+			const message = error?.response?.data?.message;
+			toast.error(message);
+
+			if (message?.toLowerCase() === 'unauthenticated.') {
+				await signOut({ callbackUrl: '/authentication' });
+			}
+		},
+	});
+
+	const USER_DETAILS = userDetails?.data?.data?.data
+		? userDetails?.data?.data?.data
+		: null;
 
 	return (
 		<>
@@ -179,21 +206,37 @@ const DashboardNav = () => {
 									</a>
 								</Link>
 								{session?.user?.user?.role === 'policy_holder' && (
-									<Link
-										href={
-											session?.user?.user?.role === 'guest'
-												? '/guest/manage-policy'
-												: session?.user?.user?.role === 'company'
-												? '/company/manage-policy'
-												: session?.user?.user?.role === 'policy_holder' &&
-												  '/policy-holder/manage-policy'
-										}
-										activeClassName="tw-bg-[#7862AF]/10 tw-text-[#7862AF] tw-font-medium">
-										<a className="tw-w-fit lg:tw-w-56 tw-py-4 tw-px-6 tw-flex tw-flex-col tw-justify-center tw-items-center lg:tw-flex-row lg:tw-justify-start lg:tw-items-end tw-gap-2 hover:tw-text-[#7862AF]">
-											<MdOutlinePolicy className="tw-shrink-0 tw-text-2xl" />{' '}
-											Manage Policy
-										</a>
-									</Link>
+									<>
+										<Link
+											href={
+												session?.user?.user?.role === 'guest'
+													? '/guest/manage-policy'
+													: session?.user?.user?.role === 'company'
+													? '/company/manage-policy'
+													: session?.user?.user?.role === 'policy_holder' &&
+													  '/policy-holder/manage-policy'
+											}
+											activeClassName="tw-bg-[#7862AF]/10 tw-text-[#7862AF] tw-font-medium">
+											<a className="tw-w-fit lg:tw-w-56 tw-py-4 tw-px-6 tw-flex tw-flex-col tw-justify-center tw-items-center lg:tw-flex-row lg:tw-justify-start lg:tw-items-end tw-gap-2 hover:tw-text-[#7862AF]">
+												<MdOutlinePolicy className="tw-shrink-0 tw-text-2xl" />{' '}
+												Manage Policy
+											</a>
+										</Link>
+
+										{USER_DETAILS?.travelling_info?.user_policy_transaction[0]
+											?.status === 'declined' ||
+										USER_DETAILS?.travelling_info?.user_policy_transaction[0]
+											?.status === 'expired' ? (
+											<Link
+												href={'/policy-holder/purchase-policy'}
+												activeClassName="tw-bg-[#7862AF]/10 tw-text-[#7862AF] tw-font-medium">
+												<a className="tw-w-fit lg:tw-w-56 tw-py-4 tw-px-6 tw-flex tw-flex-col tw-justify-center tw-items-center lg:tw-flex-row lg:tw-justify-start lg:tw-items-end tw-gap-2 hover:tw-text-[#7862AF]">
+													<IoWalletOutline className="tw-shrink-0 tw-text-2xl" />{' '}
+													Purchase Policy
+												</a>
+											</Link>
+										) : null}
+									</>
 								)}
 								<Link
 									href={

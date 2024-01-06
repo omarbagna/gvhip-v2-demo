@@ -1,7 +1,11 @@
 import axios from './axios';
 
 export default async function (req, res) {
-	const response = await axios.post(`/send-password-reset-link`, req.body);
+	try {
+		const response = await axios.post(`/send-password-reset-link`, req.body);
 
-	res.status(response?.data?.status).json(response?.data);
+		res.status(response?.data?.status).json(response?.data);
+	} catch (error) {
+		res.status(error?.response?.status).json(error?.response?.data);
+	}
 }

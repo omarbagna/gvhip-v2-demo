@@ -22,6 +22,7 @@ import { differenceInDays } from 'date-fns';
 //import { toast } from 'react-toastify';
 import BlurImage from '@/components/BlurImage/BlurImage';
 import { signOut } from 'next-auth/react';
+import { toast } from 'react-toastify';
 
 const Dashboard = () => {
 	// const axiosPrivate = useAxiosAuth();
@@ -41,25 +42,6 @@ const Dashboard = () => {
 	};
 
 	const userDetails = useQuery('user', getUserDetails, {
-		/*
-		onSuccess: (userData) => {
-			if (userData?.status === 200) {
-				setDateState([
-					{
-						startDate: new Date(
-							userData?.data?.travelling_info?.user_policy_transaction[0]?.end_date
-						),
-						endDate: addDays(
-							new Date(userData?.data?.travelling_info?.user_policy_transaction[0]?.end_date),
-							30
-						),
-						key: 'selection',
-					},
-				]);
-			}
-		},
-
-		*/
 		onError: async (error) => {
 			const message = error?.response?.data?.message;
 			toast.error(message);
@@ -73,60 +55,6 @@ const Dashboard = () => {
 	const USER_DETAILS = userDetails?.data?.data?.data
 		? userDetails?.data?.data?.data
 		: null;
-
-	/*
-	const extendUserPolicyRequest = async () => {
-		toast.loading('Verifying Policy Extension', {
-			toastId: 'verifyExtension',
-		});
-
-		const { data: response } = await axiosPrivate.put(
-			`/account/extend-policy/${paymentQuery?.uid}?checkoutid=${paymentQuery?.checkoutid}`
-		);
-
-		return response;
-	};
-
-	const extendUserPolicy = useQuery(
-		'extend-user-policy',
-		extendUserPolicyRequest,
-		{
-			onSuccess: (data) => {
-				console.log(data);
-				if (data?.status === 200) {
-					queryClient.invalidateQueries({ queryKey: ['user'] });
-
-					router.replace('/policy-holder', undefined, { shallow: true });
-
-					toast.update('verifyExtension', {
-						render: data?.message,
-						type: 'success',
-						isLoading: false,
-						autoClose: 3500,
-					});
-				} else {
-					toast.update('verifyExtension', {
-						render: 'Verification failed. Please refresh this page',
-						type: 'error',
-						isLoading: false,
-						autoClose: 3500,
-					});
-				}
-			},
-
-			onError: (error) => {
-				console.log(error?.response?.data?.message);
-				toast.update('verifyExtension', {
-					render: error?.response?.data?.message,
-					type: 'error',
-					isLoading: false,
-					autoClose: 3500,
-				});
-			},
-			enabled: paymentQuery?.uid ? true : false,
-		}
-	);
-	*/
 
 	return (
 		<div className="tw-max-w-screen tw-min-h-screen tw-bg-[#FEFBFB] tw-py-20 lg:tw-pt-20 lg:tw-pl-56">

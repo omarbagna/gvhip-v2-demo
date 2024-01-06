@@ -53,7 +53,7 @@ const ThankYou = () => {
 
 		onError: (error) => {
 			toast.update('confirmingPayment', {
-				render: error?.message,
+				render: error?.response?.data?.message,
 				type: 'error',
 				isLoading: false,
 				autoClose: 3500,
